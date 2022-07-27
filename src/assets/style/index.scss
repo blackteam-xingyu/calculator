@@ -1,0 +1,159 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+}
+
+body,
+body * {
+  box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    // overflow: hidden;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba($color: #000, $alpha: 0.2);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: teal;
+    border-radius: 6px;
+    // box-shadow      : inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+#app {
+  font-family: SiYuan, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #333;
+  width: 100%;
+  height: 100%;
+}
+
+.el-dialog {
+  border-radius: 6px !important;
+}
+
+.el-form-item__content {
+  display: flex;
+}
+
+.el-dropdown-menu__item {
+  width: 160px;
+}
+
+// /*隐藏文字*/
+// .el-menu--collapse .el-submenu__title span {
+//   display: none;
+// }
+
+// /*隐藏 > */
+// .el-menu--collapse .el-submenu__title .el-submenu__icon-arrow {
+//   display: none;
+// }
+
+.el-submenu__title {
+  display: flex;
+  align-items: center;
+}
+
+.shadow {
+  box-shadow: 1px 1px 3px #ccc;
+}
+
+.container {
+  overflow: auto;
+
+  .border {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+}
+
+.el-select {
+  width: 100%;
+}
+
+.el-input__inner {
+  width: 100%;
+}
+
+.el-select-dropdown__wrap {
+  overflow-x: hidden;
+}
+
+.el-avatar > img {
+  width: 100%;
+}
+
+.my-input {
+  width: 180px !important;
+}
+
+.my-select {
+  width: 180px !important;
+}
+
+.el-input + .el-input,
+.el-input + .el-select,
+.el-select + .el-input,
+.el-select + .el-select,
+.el-select + .el-button,
+.el-button + .el-input,
+.el-button + .el-select,
+.el-input + .el-button,
+.el-select + .el-date-editor,
+.el-date-editor + .el-button {
+  margin-left: 10px;
+}
+
+.my-title {
+  line-height: 16px;
+  height: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: SiYuanM;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  &::before {
+    content: " ";
+    height: 16px;
+    width: 3px;
+    margin-right: 5px;
+    background-color: teal;
+  }
+}
+
+.my-date-picker {
+  width: 330px !important;
+}
+
+.el-select-dropdown__wrap {
+  margin-bottom: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.el-table__row {
+  cursor: pointer;
+}
+
+.el-form-item__content {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+.el-form-item {
+  margin-bottom: 0;
+}
