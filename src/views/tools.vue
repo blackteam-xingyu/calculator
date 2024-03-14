@@ -209,7 +209,7 @@
                       class="custom-icon el-icon-view"
                       @click="
                         openPhoto(
-                          'shuipin.jpg',
+                          'shuipin',
                           '叉车运行方向与楼板跨度方向平行时图例'
                         )
                       "
@@ -348,8 +348,8 @@
                       class="custom-icon el-icon-view"
                       @click="
                         openPhoto(
-                          'chuizhi.jpg',
-                          '叉车运行方向与楼板跨度方向平行时图例'
+                          'chuizhi',
+                          '叉车运行方向与楼板跨度方向垂直时图例'
                         )
                       "
                     ></i
@@ -522,12 +522,23 @@
   </div>
 </template>
 <script>
-// import { ipcRenderer } from "electron";
+import { ipcRenderer } from "electron";
 import { exportWordDocx } from "@/plugins/exportWordDocx";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "tools",
+  beforeCreate() {
+    const to = this.$route.query.to;
+    if (to) {
+      this.$router.push({
+        name: to,
+        query: {
+          name: this.$route.query.name,
+        },
+      });
+    }
+  },
   data() {
     return {
       shuju: {
@@ -727,8 +738,8 @@ export default {
       }
       return param;
     },
-    openPhoto(name) {
-      window.open(`/photo?name=${name}`);
+    openPhoto(name, title) {
+      ipcRenderer.send("openWindow", "/photo", title, name);
       // ipcRenderer.send("openWindow", `/photo?name=${name}`, title);
     },
     exportFile() {

@@ -1,11 +1,15 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, ipcMain } from "electron";
+import { app, protocol, BrowserWindow, ipcMain, Menu } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import * as fs from "fs";
+import * as path from "path";
 // import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
-
+const winURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:8080"
+    : `file://${__dirname}/index.html`;
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
@@ -13,9 +17,12 @@ protocol.registerSchemesAsPrivileged([
 
 async function createWindow() {
   // Create the browser window.
+  Menu.setApplicationMenu(null);
   const win = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 656,
+    title: "叉车等效均布荷载计算器",
+    icon: path.join(__dirname, "./icon.ico"),
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -25,12 +32,12 @@ async function createWindow() {
   });
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
-    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);
+    win.loadURL(process.env.WEBPACK_DEV_SERVER_URL + "#/");
     if (!process.env.IS_TEST) win.webContents.openDevTools();
   } else {
     createProtocol("app");
     // Load the index.html when not in development
-    win.loadURL("app://./index.html");
+    win.loadFile("./index.html");
   }
 }
 
@@ -69,6 +76,22 @@ app.on("ready", async () => {
   //   });
   //   childWin.loadURL(url);
   // });
+  ipcMain.on("openWindow", (event, url, title, img) => {
+    const childWin = new BrowserWindow({
+      width: 800,
+      height: 656,
+      title,
+      icon: path.join(__dirname, "./icon.ico"),
+      webPreferences: {
+        nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+        contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      },
+    });
+    childWin.loadURL(`${winURL}#${url}?name=${img}`);
+    childWin.on("close", () => {
+      childWin.destroy();
+    });
+  });
   ipcMain.handle("saveFile", (event, file, fileName, _filePath) => {
     return new Promise((resolve, reject) => {
       const filePath = app.getPath(_filePath);
